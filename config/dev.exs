@@ -4,7 +4,7 @@ import Config
 config :backend, Backend.Repo,
   username: "postgres",
   password: "oy442kdsfbksXr348MWxC6Gu8z7",
-  hostname: "31.14.116.178",
+  hostname: "postgres.samirghasemi.ir",
   database: "ofogh_backend_dev",
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
