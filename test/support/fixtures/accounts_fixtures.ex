@@ -13,10 +13,9 @@ defmodule Backend.AccountsFixtures do
       |> Enum.into(%{
         balance: 120.5,
         code: "some code",
-        last: 42,
         phone_number: "some phone_number",
         pub_key: "some pub_key",
-        role: 42
+        is_admin: false,
       })
       |> Backend.Accounts.create_user()
 

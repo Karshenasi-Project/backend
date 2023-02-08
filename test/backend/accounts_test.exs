@@ -8,7 +8,7 @@ defmodule Backend.AccountsTest do
 
     import Backend.AccountsFixtures
 
-    @invalid_attrs %{balance: nil, code: nil, last: nil, phone_number: nil, pub_key: nil, role: nil}
+    @invalid_attrs %{balance: nil, code: nil, phone_number: nil, pub_key: nil, is_admin: nil}
 
     test "list_users/0 returns all users" do
       user = user_fixture()
@@ -21,15 +21,25 @@ defmodule Backend.AccountsTest do
     end
 
     test "create_user/1 with valid data creates a user" do
-      valid_attrs = %{balance: 120.5, code: "some code", last: 42, phone_number: "some phone_number", pub_key: "some pub_key", role: 42}
+      valid_attrs = %{balance: 120.5, code: "some code", phone_number: "some phone_number", pub_key: "some pub_key", is_admin: false}
 
       assert {:ok, %User{} = user} = Accounts.create_user(valid_attrs)
       assert user.balance == 120.5
       assert user.code == "some code"
-      assert user.last == 42
       assert user.phone_number == "some phone_number"
       assert user.pub_key == "some pub_key"
-      assert user.role == 42
+      assert user.is_admin  == false
+    end
+
+    test "get pubkey / is exist" do
+      valid_attrs = %{balance: 120.5, code: "some code", phone_number: "some phone_number", pub_key: "some pub_key", is_admin: false}
+
+      assert {:ok, %User{} = user} = Accounts.create_user(valid_attrs)
+      assert user.balance == 120.5
+      assert user.code == "some code"
+      assert user.phone_number == "some phone_number"
+      assert user.pub_key == "some pub_key"
+      assert user.is_admin  == false
     end
 
     test "create_user/1 with invalid data returns error changeset" do
@@ -38,15 +48,14 @@ defmodule Backend.AccountsTest do
 
     test "update_user/2 with valid data updates the user" do
       user = user_fixture()
-      update_attrs = %{balance: 456.7, code: "some updated code", last: 43, phone_number: "some updated phone_number", pub_key: "some updated pub_key", role: 43}
+      update_attrs = %{balance: 456.7, code: "some updated code", phone_number: "some updated phone_number", pub_key: "some updated pub_key", is_admin: false}
 
       assert {:ok, %User{} = user} = Accounts.update_user(user, update_attrs)
       assert user.balance == 456.7
       assert user.code == "some updated code"
-      assert user.last == 43
       assert user.phone_number == "some updated phone_number"
       assert user.pub_key == "some updated pub_key"
-      assert user.role == 43
+      assert user.is_admin == false
     end
 
     test "update_user/2 with invalid data returns error changeset" do

@@ -8,20 +8,20 @@ defmodule BackendWeb.UserControllerTest do
   @create_attrs %{
     balance: 120.5,
     code: "some code",
-    last: 42,
     phone_number: "some phone_number",
     pub_key: "some pub_key",
-    role: 42
+    is_admin: false
   }
   @update_attrs %{
     balance: 456.7,
     code: "some updated code",
-    last: 43,
     phone_number: "some updated phone_number",
     pub_key: "some updated pub_key",
-    role: 43
+    is_admin: false
+
   }
-  @invalid_attrs %{balance: nil, code: nil, last: nil, phone_number: nil, pub_key: nil, role: nil}
+
+  @invalid_attrs %{balance: nil, code: nil, phone_number: nil, pub_key: nil, is_admin: nil}
 
   setup %{conn: conn} do
     {:ok, conn: put_req_header(conn, "accept", "application/json")}
@@ -45,11 +45,10 @@ defmodule BackendWeb.UserControllerTest do
                "id" => ^id,
                "balance" => 120.5,
                "code" => "some code",
-               "last" => 42,
                "phone_number" => "some phone_number",
                "pub_key" => "some pub_key",
-               "role" => 42
-             } = json_response(conn, 200)["data"]
+               "is_admin" => false
+               } = json_response(conn, 200)["data"]
     end
 
     test "renders errors when data is invalid", %{conn: conn} do
@@ -71,11 +70,10 @@ defmodule BackendWeb.UserControllerTest do
                "id" => ^id,
                "balance" => 456.7,
                "code" => "some updated code",
-               "last" => 43,
                "phone_number" => "some updated phone_number",
                "pub_key" => "some updated pub_key",
-               "role" => 43
-             } = json_response(conn, 200)["data"]
+               "is_admin" => false
+               } = json_response(conn, 200)["data"]
     end
 
     test "renders errors when data is invalid", %{conn: conn, user: user} do
