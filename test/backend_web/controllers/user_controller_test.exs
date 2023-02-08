@@ -34,6 +34,7 @@ defmodule BackendWeb.UserControllerTest do
     end
   end
 
+
   describe "create user" do
     test "renders user when data is valid", %{conn: conn} do
       conn = post(conn, Routes.user_path(conn, :create), user: @create_attrs)
@@ -49,6 +50,11 @@ defmodule BackendWeb.UserControllerTest do
                "pub_key" => "some pub_key",
                "is_admin" => false
                } = json_response(conn, 200)["data"]
+    end
+
+    test "renders errors when data is invalid", %{conn: conn} do
+      conn = post(conn, Routes.user_path(conn, :create), user: @invalid_attrs)
+      assert json_response(conn, 422)["errors"] != %{}
     end
 
     test "renders errors when data is invalid", %{conn: conn} do
@@ -94,6 +100,7 @@ defmodule BackendWeb.UserControllerTest do
       end
     end
   end
+
 
   defp create_user(_) do
     user = user_fixture()

@@ -22,7 +22,6 @@ defmodule Backend.AccountsTest do
 
     test "create_user/1 with valid data creates a user" do
       valid_attrs = %{balance: 120.5, code: "some code", phone_number: "some phone_number", pub_key: "some pub_key", is_admin: false}
-
       assert {:ok, %User{} = user} = Accounts.create_user(valid_attrs)
       assert user.balance == 120.5
       assert user.code == "some code"
@@ -30,6 +29,17 @@ defmodule Backend.AccountsTest do
       assert user.pub_key == "some pub_key"
       assert user.is_admin  == false
     end
+
+    test "create_user_with_code/1 with valid data creates a user" do
+      valid_attrs = %{"balance" => 120.5, "code" => "some code", "phone_number" => "some phone_number", "pub_key" => "some pub_key", "is_admin" => false}
+      assert {:ok, %User{} = user} = Accounts.create_user_code(valid_attrs)
+      assert user.balance == 120.5
+      assert user.code != "some code"
+      assert user.phone_number == "some phone_number"
+      assert user.pub_key == "some pub_key"
+      assert user.is_admin  == false
+    end
+
 
     test "get pubkey / is exist" do
       valid_attrs = %{balance: 120.5, code: "some code", phone_number: "some phone_number", pub_key: "some pub_key", is_admin: false}
@@ -74,5 +84,24 @@ defmodule Backend.AccountsTest do
       user = user_fixture()
       assert %Ecto.Changeset{} = Accounts.change_user(user)
     end
+
+    test "get pub_key/returns pub_key" do
+      user = user_fixture()
+      phone_number = "some phone_number"
+      assert {:ok, %User{} = user} = Accounts.get_user_by_phone_number(phone_number)
+      assert user.balance == 120.5
+      assert user.code == "some code"
+      assert user.phone_number == "some phone_number"
+      assert user.pub_key == "some pub_key"
+      assert user.is_admin  == false
+    end
+
+    test "get pub_key/returns nil" do
+      user = user_fixture()
+      phone_number = "some rand phone_number"
+      assert {:error, :not_found} = Accounts.get_user_by_phone_number(phone_number)
+    end
+
+
   end
 end
